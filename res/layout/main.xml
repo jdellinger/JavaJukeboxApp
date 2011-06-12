@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/nowplaying"
+    android:textSize="16px"
+    android:textStyle="bold"
+    />
+<TableLayout android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_width="match_parent">
+    <TableRow android:id="@+id/titleRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:text="@string/title_label" android:id="@+id/titleLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/titleValue" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    </TableRow>
+    <TableRow android:id="@+id/albumRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:text="@string/album_label" android:id="@+id/albumLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/albumValue" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    </TableRow>
+    <TableRow android:id="@+id/artistRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:text="@string/artist_label" android:id="@+id/artistLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/artistValue" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    </TableRow>
+    <ProgressBar android:layout_height="wrap_content" android:id="@+id/currentProgress" android:layout_width="wrap_content" style="@android:style/Widget.ProgressBar.Horizontal"></ProgressBar>
+</TableLayout>
+<LinearLayout android:layout_height="wrap_content" android:id="@+id/controlsLayout" android:layout_width="match_parent">
+    <ImageButton android:src="@android:drawable/ic_media_previous" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/restartButton" android:text="Restart" android:layout_width="wrap_content"></ImageButton>
+    <ImageButton android:src="@android:drawable/ic_media_play" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/playButton" android:text="Play" android:layout_width="wrap_content"></ImageButton>
+    <ImageButton android:src="@android:drawable/ic_media_pause" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/pauseButton" android:text="Pause" android:layout_width="wrap_content" android:visibility="gone"></ImageButton>
+    <ImageButton android:src="@android:drawable/ic_media_next" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/skipButton" android:text="Skip" android:layout_width="wrap_content"></ImageButton>
+</LinearLayout>
+</LinearLayout>

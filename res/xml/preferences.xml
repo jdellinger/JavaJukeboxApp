@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Jukebox Server">
+	    <EditTextPreference android:title="Jukebox Host" android:summary="The hostname of your Jukebox server" android:defaultValue="127.0.0.1" android:key="hostPref"></EditTextPreference>
+	    <EditTextPreference android:summary="The port number of your Jukebox Server" android:defaultValue="9999" android:title="Jukebox Port" android:key="portPref"></EditTextPreference>
+	</PreferenceCategory>
+</PreferenceScreen>

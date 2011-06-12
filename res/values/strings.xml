@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Java Jukebox</string>
+    <string name="preferences">Preferences</string>
+    <string name="nowplaying">Now Playing</string>
+    <string name="title_label">Title:</string>
+    <string name="album_label">Album:</string>
+    <string name="artist_label">Artist:</string>
+</resources>
