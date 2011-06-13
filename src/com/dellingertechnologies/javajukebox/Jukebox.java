@@ -3,8 +3,11 @@ package com.dellingertechnologies.javajukebox;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
 
@@ -35,6 +39,7 @@ public class Jukebox extends Activity {
 		setContentView(R.layout.main);
 		
 		ControlListener controlListener = new ControlListener(this);
+		findViewById(R.id.volumeButton).setOnClickListener(controlListener);
 		findViewById(R.id.restartButton).setOnClickListener(controlListener);
 		findViewById(R.id.pauseButton).setOnClickListener(controlListener);
 		findViewById(R.id.playButton).setOnClickListener(controlListener);
@@ -92,6 +97,8 @@ public class Jukebox extends Activity {
 			refreshHandler.postDelayed(this, REFRESH_DELAY);
 		}
 	};
+
+	private double volume;
 	
 	public void refreshStatus() {
 		new UpdateNowPlayingTask().execute();
@@ -154,5 +161,42 @@ public class Jukebox extends Activity {
 			view.setText(text);
 		}
 
+	}
+
+	public double getVolume(){
+		return volume;
+	}
+	public void setVolume(double volume) {
+		this.volume = volume;
+	}
+
+	public void updateVolume(double d) {
+		new AsyncTask<Double, Void, JSONObject>(){
+
+			@Override
+			protected JSONObject doInBackground(Double... params) {
+				RestClient client = new RestClient(getServiceUrl() + "/volume");
+				client.addParam("volume", String.valueOf(params[0]));
+				try {
+					Log.d("jukebox", "Calling update volume service");
+					client.execute(RequestMethod.POST);
+					return new JSONObject(client.getResponse());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(JSONObject result) {
+				super.onPostExecute(result);
+				try{
+					setVolume(result.getDouble("volume"));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+		}.execute(d);
 	}
 }

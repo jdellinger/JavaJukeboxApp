@@ -27,6 +27,7 @@
     <ProgressBar android:layout_height="wrap_content" android:id="@+id/currentProgress" android:layout_width="wrap_content" style="@android:style/Widget.ProgressBar.Horizontal"></ProgressBar>
 </TableLayout>
 <LinearLayout android:layout_height="wrap_content" android:id="@+id/controlsLayout" android:layout_width="match_parent">
+    <ImageButton android:src="@drawable/speaker" android:layout_height="wrap_content" android:id="@+id/volumeButton" android:layout_width="wrap_content"></ImageButton>
     <ImageButton android:src="@android:drawable/ic_media_previous" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/restartButton" android:text="Restart" android:layout_width="wrap_content"></ImageButton>
     <ImageButton android:src="@android:drawable/ic_media_play" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/playButton" android:text="Play" android:layout_width="wrap_content"></ImageButton>
     <ImageButton android:src="@android:drawable/ic_media_pause" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/pauseButton" android:text="Pause" android:layout_width="wrap_content" android:visibility="gone"></ImageButton>
