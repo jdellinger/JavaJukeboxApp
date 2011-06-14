@@ -24,6 +24,10 @@
         <TextView android:text="@string/artist_label" android:id="@+id/artistLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
         <TextView android:id="@+id/artistValue" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
     </TableRow>
+    <TableRow android:id="@+id/fileRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:text="@string/file_label" android:id="@+id/fileLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/fileValue" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    </TableRow>
     <ProgressBar android:layout_height="wrap_content" android:id="@+id/currentProgress" android:layout_width="wrap_content" style="@android:style/Widget.ProgressBar.Horizontal"></ProgressBar>
 </TableLayout>
 <LinearLayout android:layout_height="wrap_content" android:id="@+id/controlsLayout" android:layout_width="match_parent">

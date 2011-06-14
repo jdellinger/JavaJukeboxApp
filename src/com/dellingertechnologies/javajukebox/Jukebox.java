@@ -104,8 +104,7 @@ public class Jukebox extends Activity {
 		new UpdateNowPlayingTask().execute();
 	}
 	
-	private class UpdateNowPlayingTask extends
-			AsyncTask<Void, Void, JSONObject> {
+	private class UpdateNowPlayingTask extends AsyncTask<Void, Void, JSONObject> {
 
 		@Override
 		protected JSONObject doInBackground(Void... arg0) {
@@ -138,6 +137,7 @@ public class Jukebox extends Activity {
 					updateTextView(R.id.titleValue, current, "title");
 					updateTextView(R.id.albumValue, current, "album");
 					updateTextView(R.id.artistValue, current, "author");
+					updateTextView(R.id.fileValue, result, "file");
 					
 					double maxFrames = result.getJSONObject("current").getDouble("mp3.length.frames");
 					double curFrame = result.getJSONObject("progress").getDouble("mp3.frame");

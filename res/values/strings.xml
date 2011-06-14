@@ -6,4 +6,5 @@
     <string name="title_label">Title:</string>
     <string name="album_label">Album:</string>
     <string name="artist_label">Artist:</string>
+    <string name="file_label">File:</string>
 </resources>

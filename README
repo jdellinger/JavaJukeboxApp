@@ -1,1 +1,5 @@
 Android Application for interfacing with Java Jukebox
+
+This android app is currently built for version 2.2. It interfaces with JavaJukebox to provide the ability to remotely control the player.
+
+Set the host and port to match the JavaJukebox instance you are running on the app preferences.
