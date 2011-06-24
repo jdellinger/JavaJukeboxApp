@@ -133,17 +133,16 @@ public class Jukebox extends Activity {
 						findViewById(R.id.pauseButton).setVisibility(View.GONE);
 					}
 					
-					JSONObject current = result.getJSONObject("current");
-					updateTextView(R.id.titleValue, current, "title");
-					updateTextView(R.id.albumValue, current, "album");
-					updateTextView(R.id.artistValue, current, "author");
+					JSONObject track = result.getJSONObject("track");
+					updateTextView(R.id.titleValue, track, "title");
+					updateTextView(R.id.albumValue, track, "album");
+					updateTextView(R.id.artistValue, track, "artist");
 					updateTextView(R.id.fileValue, result, "file");
 					
-					double maxFrames = result.getJSONObject("current").getDouble("mp3.length.frames");
-					double curFrame = result.getJSONObject("progress").getDouble("mp3.frame");
-					int progress = (int)(curFrame/maxFrames*100);
+					double progress = result.getDouble("progress");
+					int progressState = (int)(progress*100);
 					ProgressBar currentProgress = (ProgressBar) findViewById(R.id.currentProgress);
-					currentProgress.setProgress(progress);
+					currentProgress.setProgress(progressState);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
