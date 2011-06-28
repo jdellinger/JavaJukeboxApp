@@ -39,16 +39,16 @@
 			</TableLayout>
 			<LinearLayout android:layout_height="wrap_content" android:id="@+id/controlsLayout" android:layout_width="match_parent">
 			    <ImageButton android:src="@drawable/speaker" android:layout_height="wrap_content" android:id="@+id/volumeButton" android:layout_width="wrap_content" android:layout_weight="1"></ImageButton>
-			    <ImageButton android:src="@android:drawable/ic_media_previous" android:layout_height="wrap_content" android:id="@+id/restartButton" android:text="Restart" android:layout_width="wrap_content" android:layout_weight="1"></ImageButton>
-			    <ImageButton android:src="@android:drawable/ic_media_play" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/playButton" android:text="Play" android:layout_width="wrap_content"></ImageButton>
-			    <ImageButton android:src="@android:drawable/ic_media_pause" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/pauseButton" android:text="Pause" android:layout_width="wrap_content" android:visibility="gone"></ImageButton>
-			    <ImageButton android:src="@android:drawable/ic_media_next" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/skipButton" android:text="Skip" android:layout_width="wrap_content"></ImageButton>
+			    <ImageButton android:src="@drawable/button_blue_first" android:layout_height="wrap_content" android:id="@+id/restartButton" android:text="Restart" android:layout_width="wrap_content" android:layout_weight="1"></ImageButton>
+			    <ImageButton android:src="@drawable/button_blue_play" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/playButton" android:text="Play" android:layout_width="wrap_content"></ImageButton>
+			    <ImageButton android:src="@drawable/button_blue_pause" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/pauseButton" android:text="Pause" android:layout_width="wrap_content" android:visibility="gone"></ImageButton>
+			    <ImageButton android:src="@drawable/button_blue_last" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/skipButton" android:text="Skip" android:layout_width="wrap_content"></ImageButton>
 			</LinearLayout>
 		</LinearLayout>
 		<LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:id="@+id/ratingsLayout" android:layout_width="match_parent" android:layout_gravity="bottom">
-			<ImageButton android:id="@+id/likeButton" android:src="@drawable/like" android:text="Like" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
-			<ImageButton android:id="@+id/dislikeButton" android:src="@drawable/dislike" android:text="Dislike" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
-	        <TextView android:id="@+id/ratingValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone"></TextView>
+			<ImageButton android:id="@+id/likeButton" android:src="@drawable/happy_icon" android:text="Like" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
+			<ImageButton android:id="@+id/dislikeButton" android:src="@drawable/sad_icon" android:text="Dislike" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
+	        <TextView android:id="@+id/ratingValue" android:layout_height="wrap_content" android:visibility="gone" android:layout_width="match_parent" android:gravity="center"></TextView>
 		</LinearLayout>
 </LinearLayout>
 		
