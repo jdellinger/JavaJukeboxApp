@@ -88,6 +88,7 @@ public class Jukebox extends Activity {
 		super.onResume();
 		loadPreferences();
 		refreshHandler.removeCallbacks(refreshTask);
+		refreshStatus();
 		refreshHandler.post(refreshTask);
 	}
 	
