@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -44,6 +45,8 @@ public class Jukebox extends Activity {
 		findViewById(R.id.pauseButton).setOnClickListener(controlListener);
 		findViewById(R.id.playButton).setOnClickListener(controlListener);
 		findViewById(R.id.skipButton).setOnClickListener(controlListener);
+		findViewById(R.id.likeButton).setOnClickListener(controlListener);
+		findViewById(R.id.dislikeButton).setOnClickListener(controlListener);
 	}
 
 	private void loadPreferences() {
@@ -143,6 +146,28 @@ public class Jukebox extends Activity {
 					int progressState = (int)(progress*100);
 					ProgressBar currentProgress = (ProgressBar) findViewById(R.id.currentProgress);
 					currentProgress.setProgress(progressState);
+					
+					TextView ratingValue = (TextView) findViewById(R.id.ratingValue);
+					if(result.has("rating")){
+						String rating = result.getString("rating");
+						if("LIKE".equals(rating)){
+							ratingValue.setText("You like this!");
+							ratingValue.setTextColor(Color.GREEN);
+							findViewById(R.id.likeButton).setVisibility(View.GONE);
+							findViewById(R.id.dislikeButton).setVisibility(View.GONE);
+							ratingValue.setVisibility(View.VISIBLE);
+						}else if("DISLIKE".equals(rating)){
+							ratingValue.setText("You dislike this!");
+							ratingValue.setTextColor(Color.RED);
+							findViewById(R.id.likeButton).setVisibility(View.GONE);
+							findViewById(R.id.dislikeButton).setVisibility(View.GONE);
+							ratingValue.setVisibility(View.VISIBLE);
+						}
+					}else{
+						findViewById(R.id.likeButton).setVisibility(View.VISIBLE);
+						findViewById(R.id.dislikeButton).setVisibility(View.VISIBLE);
+						ratingValue.setVisibility(View.GONE);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

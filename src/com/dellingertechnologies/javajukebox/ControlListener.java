@@ -40,6 +40,12 @@ public class ControlListener implements OnClickListener{
 			case R.id.volumeButton:
 				callVolumeService();
 				break;
+			case R.id.likeButton:
+				callService("like");
+				break;
+			case R.id.dislikeButton:
+				callService("dislike");
+				break;
 		}
 	}
 
