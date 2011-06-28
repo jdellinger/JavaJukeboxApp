@@ -3,12 +3,11 @@ package com.dellingertechnologies.javajukebox;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,20 +17,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
 
 public class Jukebox extends Activity {
 
 	protected static final long REFRESH_DELAY = 5000;
-
 	private Handler refreshHandler = new Handler();
-
+	private double volume;
+	protected AlertDialog explicitDialog;
 	private String host;
-
 	private String port;
 	
 	@Override
@@ -47,6 +47,24 @@ public class Jukebox extends Activity {
 		findViewById(R.id.skipButton).setOnClickListener(controlListener);
 		findViewById(R.id.likeButton).setOnClickListener(controlListener);
 		findViewById(R.id.dislikeButton).setOnClickListener(controlListener);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Do you want to mark this track explicit?")
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", controlListener)
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		explicitDialog = builder.create();
+
+		findViewById(R.id.explicitButton).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				explicitDialog.show();
+			}
+		});
 	}
 
 	private void loadPreferences() {
@@ -72,7 +90,7 @@ public class Jukebox extends Activity {
 		refreshHandler.removeCallbacks(refreshTask);
 		refreshHandler.post(refreshTask);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater menuInflater = getMenuInflater();
@@ -101,8 +119,6 @@ public class Jukebox extends Activity {
 		}
 	};
 
-	private double volume;
-	
 	public void refreshStatus() {
 		new UpdateNowPlayingTask().execute();
 	}
@@ -167,6 +183,16 @@ public class Jukebox extends Activity {
 						findViewById(R.id.likeButton).setVisibility(View.VISIBLE);
 						findViewById(R.id.dislikeButton).setVisibility(View.VISIBLE);
 						ratingValue.setVisibility(View.GONE);
+					}
+					
+					ImageView explicitImage = (ImageView) findViewById(R.id.explicitImage);
+					Button explicitButton = (Button) findViewById(R.id.explicitButton);
+					if(track.has("explicit") && track.getBoolean("explicit")){
+						explicitImage.setVisibility(View.VISIBLE);
+						explicitButton.setVisibility(View.GONE);
+					}else{
+						explicitImage.setVisibility(View.GONE);
+						explicitButton.setVisibility(View.VISIBLE);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

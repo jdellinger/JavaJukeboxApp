@@ -45,6 +45,10 @@
 			    <ImageButton android:src="@drawable/button_blue_last" android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/skipButton" android:text="Skip" android:layout_width="wrap_content"></ImageButton>
 			</LinearLayout>
 		</LinearLayout>
+		<LinearLayout android:orientation="horizontal" android:layout_weight="2" android:layout_height="match_parent" android:id="@+id/centerLayout" android:layout_width="match_parent" android:gravity="center">
+			<Button android:text="Explicit?" android:id="@+id/explicitButton" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			<ImageView android:src="@drawable/explicit" android:id="@+id/explicitImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone"></ImageView>
+		</LinearLayout>
 		<LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:id="@+id/ratingsLayout" android:layout_width="match_parent" android:layout_gravity="bottom">
 			<ImageButton android:id="@+id/likeButton" android:src="@drawable/happy_icon" android:text="Like" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
 			<ImageButton android:id="@+id/dislikeButton" android:src="@drawable/sad_icon" android:text="Dislike" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>

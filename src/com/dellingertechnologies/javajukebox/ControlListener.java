@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
 
-public class ControlListener implements OnClickListener{
+public class ControlListener implements OnClickListener, android.content.DialogInterface.OnClickListener{
 
 	Jukebox jukebox = null;
 	
@@ -83,13 +84,35 @@ public class ControlListener implements OnClickListener{
 		}.execute();
 	}
 
+	private void postToService(String command) {
+		new AsyncTask<String, Void, Void>(){
+			@Override
+			protected Void doInBackground(String... params) {
+				try {
+					RestClient client = new RestClient(jukebox.getServiceUrl() + "/" + params[0]);
+					Log.d("jukebox", "Calling POST service: " + params[0]);
+					client.execute(RequestMethod.POST);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				jukebox.refreshStatus();
+			}
+		}.execute(command);
+	}
+	
 	private void callService(String command) {
 		new AsyncTask<String, Void, Void>(){
 			@Override
 			protected Void doInBackground(String... params) {
 				try {
 					RestClient client = new RestClient(jukebox.getServiceUrl() + "/" + params[0]);
-					Log.d("jukebox", "Calling service: " + params[0]);
+					Log.d("jukebox", "Calling GET service: " + params[0]);
 					client.execute(RequestMethod.GET);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -103,6 +126,14 @@ public class ControlListener implements OnClickListener{
 				jukebox.refreshStatus();
 			}
 		}.execute(command);
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		if(dialog == jukebox.explicitDialog && which == dialog.BUTTON_POSITIVE){
+			postToService("explicit");
+			dialog.dismiss();
+		}
 	}
 
 }
