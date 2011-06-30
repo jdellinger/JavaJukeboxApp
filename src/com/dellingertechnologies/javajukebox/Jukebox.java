@@ -157,7 +157,7 @@ public class Jukebox extends Activity {
 					updateTextView(R.id.titleValue, track, "title");
 					updateTextView(R.id.albumValue, track, "album");
 					updateTextView(R.id.artistValue, track, "artist");
-					updateTextView(R.id.fileValue, result, "file");
+					updateTextView(R.id.fileValue, track, "file");
 					
 					double progress = result.getDouble("progress");
 					int progressState = (int)(progress*100);
