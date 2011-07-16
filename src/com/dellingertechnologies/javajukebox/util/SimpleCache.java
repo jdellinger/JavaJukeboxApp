@@ -1,5 +1,6 @@
 package com.dellingertechnologies.javajukebox.util;
 
+import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 public class SimpleCache<T> {
 
 	private long defaultExpires;
-	private final Map<String, T> objects;
+	private final Map<String, SoftReference<T>> objects;
 	private final Map<String, Long> expires;
 	
 	public SimpleCache(){
@@ -15,7 +16,7 @@ public class SimpleCache<T> {
 	}
 	public SimpleCache(long defaultExpires){
 		this.defaultExpires = defaultExpires;
-		objects = Collections.synchronizedMap(new HashMap<String, T>());
+		objects = Collections.synchronizedMap(new HashMap<String, SoftReference<T>>());
 		expires = Collections.synchronizedMap(new HashMap<String, Long>());
 	}
 	
@@ -24,7 +25,7 @@ public class SimpleCache<T> {
 	}
 	
 	public void put(String key, T value, long expires){
-		this.objects.put(key, value);
+		this.objects.put(key, new SoftReference<T>(value));
 		this.expires.put(key, System.currentTimeMillis() + 	expires*1000);
 	}
 
@@ -35,7 +36,7 @@ public class SimpleCache<T> {
 			remove(key);
 			return null;
 		}
-		return objects.get(key);
+		return objects.get(key).get();
 	}
 	
 	private void remove(String key) {
