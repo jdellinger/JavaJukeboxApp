@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
 import com.dellingertechnologies.javajukebox.model.Track;
 import com.dellingertechnologies.javajukebox.model.User;
+import com.dellingertechnologies.javajukebox.services.GravatarService;
 
 public class Queue extends ListActivity{
 
@@ -96,27 +97,32 @@ public class Queue extends ListActivity{
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = context.getLayoutInflater();
-			Track track = queue.get(position);
-			View rowView = inflater.inflate(R.layout.queue_row, null, true);
-			ImageView gravatar = (ImageView) rowView.findViewById(R.id.row_gravatar);
-			TextView titleView = (TextView) rowView.findViewById(R.id.row_title);
-			if(track.getTitle() == null || track.getTitle().trim().equals("")){
-				titleView.setText(track.getPath());
+		public View getView(int position, View rowView, ViewGroup parent) {
+			RowViewHolder holder;
+			if(rowView == null){
+				rowView = context.getLayoutInflater().inflate(R.layout.queue_row, null, true);
+				
+				holder = new RowViewHolder();
+				holder.title = (TextView) rowView.findViewById(R.id.row_title);
+				holder.album = (TextView) rowView.findViewById(R.id.row_album);
+				holder.artist = (TextView) rowView.findViewById(R.id.row_artist);
+				holder.gravatar = (ImageView) rowView.findViewById(R.id.row_gravatar);
+				
+				rowView.setTag(holder);
 			}else{
-				titleView.setText(track.getTitle());
+				holder = (RowViewHolder) rowView.getTag();
 			}
-			TextView albumView = (TextView) rowView.findViewById(R.id.row_album);
-			albumView.setText(track.getAlbum());
-			TextView artistView = (TextView) rowView.findViewById(R.id.row_artist);
-			artistView.setText(track.getArtist());
+			Track track = queue.get(position);
+			if(track.getTitle() == null || track.getTitle().trim().equals("")){
+				holder.title.setText(track.getPath());
+			}else{
+				holder.title.setText(track.getTitle());
+			}
+			holder.album.setText(track.getAlbum());
+			holder.artist.setText(track.getArtist());
 			try {
-				URL url = new URL(getGravatarUrl(track.getUser()
-						.getGravatarId()));
-				InputStream content = (InputStream) url.getContent();
-				Drawable d = Drawable.createFromStream(content, "src");
-				gravatar.setImageDrawable(d);
+				Drawable d = new GravatarService().getGravatar(track.getUser().getGravatarId());
+				holder.gravatar.setImageDrawable(d);
 			} catch (Exception e) {
 				Log.w("jukebox", "Exception loading gravatar: "
 						+ track.getUser().getGravatarId(), e);
@@ -153,6 +159,13 @@ public class Queue extends ListActivity{
 		public void unregisterDataSetObserver(DataSetObserver observer) {
 			
 		}
+	}
+	
+	private class RowViewHolder {
+		public TextView title;
+		public TextView album;
+		public TextView artist;
+		public ImageView gravatar;
 	}
 	
 	private class ReloadQueueTask extends AsyncTask<Void, Void, JSONObject> {
