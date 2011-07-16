@@ -103,8 +103,10 @@ public class Jukebox extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 	    case R.id.menu_settings:
-	    	Intent settingsActivity = new Intent(getBaseContext(), Preferences.class);
-	    	startActivity(settingsActivity);
+	    	startActivity(new Intent(getBaseContext(), Preferences.class));
+	        return true;
+	    case R.id.coming_up:
+	    	startActivity(new Intent(getBaseContext(), Queue.class));
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);

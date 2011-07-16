@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="JukeboxTheme" parent="android:Theme.Light">
+    <item name="android:listViewStyle">@style/JukeboxListView</item>
+  </style>
+
+  <style name="JukeboxListView" parent="@android:style/Widget.ListView">
+  </style>
+</resources>

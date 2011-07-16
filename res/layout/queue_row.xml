@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+
+	<ImageView android:id="@+id/row_gravatar"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		android:layout_gravity="center"
+		android:maxWidth="80dp"
+		android:maxHeight="80dp"
+		></ImageView>
+
+	<TableLayout 
+		android:id="@+id/queue_tableLayout1"
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content"
+		android:shrinkColumns="1">
+		<TableRow android:id="@+id/queue_titleRow" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@string/title_label" android:id="@+id/queue_titleLabel"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/row_title"
+				android:scrollHorizontally="false" android:layout_width="wrap_content"
+				android:layout_weight="0" android:layout_height="wrap_content"></TextView>
+		</TableRow>
+		<TableRow android:id="@+id/queue_albumRow" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@string/album_label" android:id="@+id/queue_albumLabel"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/row_album"
+				android:scrollHorizontally="false" android:layout_width="wrap_content"
+				android:layout_weight="1" android:layout_height="wrap_content"></TextView>
+		</TableRow>
+		<TableRow android:id="@+id/queue_artistRow" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@string/artist_label" android:id="@+id/queue_artistLabel"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:id="@+id/row_artist"
+				android:scrollHorizontally="false" android:layout_width="wrap_content"
+				android:layout_weight="1" android:layout_height="wrap_content"></TextView>
+		</TableRow>
+	</TableLayout>
+
+</LinearLayout>
