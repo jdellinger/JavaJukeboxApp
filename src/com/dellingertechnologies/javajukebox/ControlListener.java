@@ -51,6 +51,7 @@ public class ControlListener implements OnClickListener, android.content.DialogI
 	}
 
 	private void callVolumeService() {
+		jukebox.setProgressBarIndeterminateVisibility(true);
 		new AsyncTask<Void, Void, JSONObject>(){
 
 			@Override
@@ -71,6 +72,7 @@ public class ControlListener implements OnClickListener, android.content.DialogI
 				super.onPostExecute(result);
 				if(result != null){
 					try{
+						jukebox.setProgressBarIndeterminateVisibility(false);
 						jukebox.setVolume(result.getDouble("volume"));
 						Dialog dialog = new VolumeDialog(jukebox, jukebox);
 						dialog.setOwnerActivity(jukebox);
@@ -107,6 +109,7 @@ public class ControlListener implements OnClickListener, android.content.DialogI
 	}
 	
 	private void callService(String command) {
+		jukebox.setProgressBarIndeterminateVisibility(true);
 		new AsyncTask<String, Void, Void>(){
 			@Override
 			protected Void doInBackground(String... params) {
@@ -123,6 +126,7 @@ public class ControlListener implements OnClickListener, android.content.DialogI
 			@Override
 			protected void onPostExecute(Void result) {
 				super.onPostExecute(result);
+				jukebox.setProgressBarIndeterminateVisibility(false);
 				jukebox.refreshStatus();
 			}
 		}.execute(command);

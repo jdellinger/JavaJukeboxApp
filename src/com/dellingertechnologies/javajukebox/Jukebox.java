@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +38,8 @@ public class Jukebox extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		setProgressBarIndeterminate(true);
 		setContentView(R.layout.main);
 		
 		ControlListener controlListener = new ControlListener(this);
@@ -224,6 +227,7 @@ public class Jukebox extends Activity {
 	}
 
 	public void updateVolume(double d) {
+		setProgressBarIndeterminateVisibility(true);
 		new AsyncTask<Double, Void, JSONObject>(){
 
 			@Override
@@ -245,6 +249,7 @@ public class Jukebox extends Activity {
 				super.onPostExecute(result);
 				try{
 					setVolume(result.getDouble("volume"));
+					setProgressBarIndeterminateVisibility(false);
 				}catch(Exception e){
 					e.printStackTrace();
 				}

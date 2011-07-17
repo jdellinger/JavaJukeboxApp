@@ -1,7 +1,5 @@
 package com.dellingertechnologies.javajukebox;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
@@ -25,11 +22,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
 import com.dellingertechnologies.javajukebox.model.Track;
@@ -44,6 +41,8 @@ public class Queue extends ListActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		setProgressBarIndeterminate(true);
 		setContentView(R.layout.queue);
 	}
 
@@ -68,7 +67,8 @@ public class Queue extends ListActivity{
 		       .setCancelable(false)
 		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
-		                new RemoveTrackTask().execute(trackId);
+		        	   setProgressBarIndeterminateVisibility(true);
+		               new RemoveTrackTask().execute(trackId);
 		           }
 		       })
 		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -81,6 +81,7 @@ public class Queue extends ListActivity{
 	}
 
 	public void reloadQueue() {
+		setProgressBarIndeterminateVisibility(true);
 		new ReloadQueueTask().execute();
 	}
 	
@@ -95,9 +96,11 @@ public class Queue extends ListActivity{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 	    case R.id.queue_add_track:
+			setProgressBarIndeterminateVisibility(true);
 	    	new AddTracksTask().execute(1);
 	        return true;
 	    case R.id.queue_add_five_tracks:
+			setProgressBarIndeterminateVisibility(true);
 	    	new AddTracksTask().execute(5);
 	        return true;
 	    default:
@@ -125,6 +128,7 @@ public class Queue extends ListActivity{
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			setProgressBarIndeterminateVisibility(false);
 			reloadQueue();
 		}
 		
@@ -148,6 +152,7 @@ public class Queue extends ListActivity{
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			setProgressBarIndeterminateVisibility(false);
 			reloadQueue();
 		}
 		
@@ -274,6 +279,7 @@ public class Queue extends ListActivity{
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
+			setProgressBarIndeterminateVisibility(false);
 			if (result != null) {
 				try {
 					List<Track> tracks = buildTracks(result.getJSONArray("queue"));
