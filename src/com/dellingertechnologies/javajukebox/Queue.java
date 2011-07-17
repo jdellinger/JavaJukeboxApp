@@ -9,7 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
@@ -25,7 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
 import com.dellingertechnologies.javajukebox.model.Track;
@@ -55,6 +59,27 @@ public class Queue extends ListActivity{
 		reloadQueue();
 	}
 
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		final int trackId = (int) id;
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Do you want to delete this track from the queue?")
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                new RemoveTrackTask().execute(trackId);
+		           }
+		       })
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
 	public void reloadQueue() {
 		new ReloadQueueTask().execute();
 	}
@@ -78,6 +103,31 @@ public class Queue extends ListActivity{
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
+	}
+
+	private class RemoveTrackTask extends AsyncTask<Integer, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Integer... params) {
+			RestClient client = new RestClient(getServiceUrl() + "/queue/remove");
+			if(params != null && params.length > 0){
+				client.addParam("id", String.valueOf(params[0]));
+				try {
+					Log.d("jukebox", "Calling remove from queue service");
+					client.execute(RequestMethod.GET);
+				} catch (Exception e) {
+					Log.w(Constants.JUKEBOX_TAG, "Exception calling remove from queue service", e);
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			reloadQueue();
+		}
+		
 	}
 
 	private class AddTracksTask extends AsyncTask<Integer, Void, Void> {
