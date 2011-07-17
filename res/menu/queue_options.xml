@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/add_track" android:id="@+id/queue_add_track" android:icon="@android:drawable/ic_menu_preferences"></item>
+    <item android:title="@string/add_five_tracks" android:id="@+id/queue_add_five_tracks" android:icon="@android:drawable/ic_menu_preferences"></item>
+</menu>

@@ -8,4 +8,6 @@
     <string name="artist_label">Artist:</string>
     <string name="file_label">File:</string>
     <string name="coming_up">Coming Up</string>
+    <string name="add_track">Add Track</string>
+    <string name="add_five_tracks">Add 5 Tracks</string>
 </resources>

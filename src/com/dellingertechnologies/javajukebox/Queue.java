@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
@@ -17,7 +18,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,6 +57,50 @@ public class Queue extends ListActivity{
 
 	public void reloadQueue() {
 		new ReloadQueueTask().execute();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater menuInflater = getMenuInflater();
+    	menuInflater.inflate(R.menu.queue_options, menu);
+    	return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+	    case R.id.queue_add_track:
+	    	new AddTracksTask().execute(1);
+	        return true;
+	    case R.id.queue_add_five_tracks:
+	    	new AddTracksTask().execute(5);
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	private class AddTracksTask extends AsyncTask<Integer, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Integer... params) {
+			RestClient client = new RestClient(getServiceUrl() + "/queue/add");
+			client.addParam("num", String.valueOf(params != null && params.length > 0 ? params[0] : 1));
+			try {
+				Log.d("jukebox", "Calling add to queue service");
+				client.execute(RequestMethod.GET);
+			} catch (Exception e) {
+				Log.w(Constants.JUKEBOX_TAG, "Exception calling add to queue service", e);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			reloadQueue();
+		}
+		
 	}
 	
 	private class QueueAdapter implements ListAdapter {
@@ -120,19 +167,9 @@ public class Queue extends ListActivity{
 			}
 			holder.album.setText(track.getAlbum());
 			holder.artist.setText(track.getArtist());
-			try {
-				Drawable d = new GravatarService().getGravatar(track.getUser().getGravatarId());
-				holder.gravatar.setImageDrawable(d);
-			} catch (Exception e) {
-				Log.w("jukebox", "Exception loading gravatar: "
-						+ track.getUser().getGravatarId(), e);
-			}
+			Drawable d = new GravatarService().getGravatar(track.getUser().getGravatarId());
+			holder.gravatar.setImageDrawable(d);
 			return rowView;
-		}
-
-		private String getGravatarUrl(String gravatarId) {
-			String id = gravatarId == null ? "" : gravatarId.trim();
-			return "http://www.gravatar.com/avatar/"+id+".jpg?d=mm&r=pg&s=80";
 		}
 
 		@Override
