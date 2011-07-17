@@ -14,7 +14,7 @@ public class GravatarService {
 
 	private static SimpleCache<Drawable> cache = new SimpleCache<Drawable>();
 	private String defaultCode = "mm";
-	private String size = "80";
+	private String size = "150";
 	private String rating = "pg";
 	private MessageFormat urlFormat = new MessageFormat("http://www.gravatar.com/avatar/{0}.jpg?d={1}&r={2}&s={3}");
 	

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dellingertechnologies.javajukebox.RestClient.RequestMethod;
+import com.dellingertechnologies.javajukebox.services.GravatarService;
 
 public class Jukebox extends Activity {
 
@@ -200,6 +202,13 @@ public class Jukebox extends Activity {
 						explicitImage.setVisibility(View.GONE);
 						explicitButton.setVisibility(View.VISIBLE);
 					}
+					
+					ImageView gravatar = (ImageView) findViewById(R.id.main_gravatar);
+					JSONObject user = track.getJSONObject("user");
+					Drawable d = new GravatarService()
+						.getGravatar(user.has("gravatarId") ? user.getString("gravatarId") : null);
+					gravatar.setImageDrawable(d);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
