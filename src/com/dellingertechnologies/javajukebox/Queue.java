@@ -15,6 +15,7 @@ import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -35,8 +36,10 @@ import com.dellingertechnologies.javajukebox.services.GravatarService;
 
 public class Queue extends ListActivity{
 
+	protected static final long REFRESH_DELAY = 5000;
 	private String host;
 	private String port;
+	private Handler refreshHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +52,26 @@ public class Queue extends ListActivity{
 	@Override
 	protected void onPause() {
 		super.onPause();
+		refreshHandler.removeCallbacks(refreshTask);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		loadPreferences();
+		refreshHandler.removeCallbacks(refreshTask);
 		reloadQueue();
+		refreshHandler.post(refreshTask);
 	}
+
+	private Runnable refreshTask = new Runnable() {
+		
+		@Override
+		public void run() {
+			new ReloadQueueTask().execute();
+			refreshHandler.postDelayed(this, REFRESH_DELAY);
+		}
+	};
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
