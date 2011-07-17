@@ -173,13 +173,13 @@ public class Jukebox extends Activity {
 					if(result.has("rating")){
 						String rating = result.getString("rating");
 						if("LIKE".equals(rating)){
-							ratingValue.setText("You like this!");
+							ratingValue.setText("You JUKED this!");
 							ratingValue.setTextColor(Color.GREEN);
 							findViewById(R.id.likeButton).setVisibility(View.GONE);
 							findViewById(R.id.dislikeButton).setVisibility(View.GONE);
 							ratingValue.setVisibility(View.VISIBLE);
 						}else if("DISLIKE".equals(rating)){
-							ratingValue.setText("You dislike this!");
+							ratingValue.setText("You JUNKED this!");
 							ratingValue.setTextColor(Color.RED);
 							findViewById(R.id.likeButton).setVisibility(View.GONE);
 							findViewById(R.id.dislikeButton).setVisibility(View.GONE);
